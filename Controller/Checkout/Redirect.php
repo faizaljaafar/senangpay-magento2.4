@@ -2,7 +2,7 @@
 
 namespace Senangpay\SenangpayPaymentGateway\Controller\Checkout;
 
-use Senangpay\SenangpayPaymentGateway\Model\SenangpayConnect;
+use Senangpay\SenangpayPaymentGateway\Model\SenangpayApi;
 use Magento\Sales\Model\Order;
 
 /**
@@ -13,11 +13,11 @@ class Redirect extends AbstractAction
     public function execute()
     {
         try {
-            $params = BillplzConnect::getXSignature($this->getGatewayConfig()->getXSignature());
-            $this->getLogger()->debug('X Signature validation passed.');
+            $params = SenangpayApi::getResponse($this->getGatewayConfig()->getSecretKey());
+            $this->getLogger()->debug('Response hash validation passed.');
         } catch (\Exception $e) {
-            $this->getLogger()->debug('Failed X Signature Validation. Possibly due to invalid X Signature Key');
-            exit('Failed X Signature Validation');
+            $this->getLogger()->debug('Failed Hash Validation. Possibly due to invalid senangPay merchant information.');
+            exit('Failed Hash Validation');
         }
 
         $order = $this->getOrderSenangpayOrderId('senangpay_order_id', $params['order_id']);
@@ -30,7 +30,7 @@ class Redirect extends AbstractAction
 
         if ($params['paid']) {
             if ($order->getState() === Order::STATE_PENDING_PAYMENT) {
-                $this->_createInvoice($order, $params['order_id']);
+                $this->_createInvoice($order, $params['transaction_id']);
             }
             $this->getMessageManager()->addSuccessMessage(__("Your payment with senangPay is complete. Transaction ID {$params['transaction_id']}"));
 
@@ -45,7 +45,7 @@ class Redirect extends AbstractAction
 
     }
 
-    private function _createInvoice(Order $order, $bill_id)
+    private function _createInvoice(Order $order, $transaction_id)
     {
         if (!$order->canInvoice()) {
             throw new \Magento\Framework\Exception\LocalizedException(
@@ -63,7 +63,7 @@ class Redirect extends AbstractAction
             );
         }
 
-        $invoice->setTransactionId($bill_id);
+        $invoice->setTransactionId($transaction_id);
         $invoice->setRequestedCaptureCase(Order\Invoice::CAPTURE_OFFLINE);
         $invoice->register();
 
@@ -73,7 +73,7 @@ class Redirect extends AbstractAction
         $transaction->save();
 
         $order->setState(Order::STATE_PROCESSING);
-        $order->addStatusToHistory($order->getConfig()->getStateDefaultStatus(Order::STATE_PROCESSING), "senangPay payment success. Order ID $bill_id", true);
+        $order->addStatusToHistory($order->getConfig()->getStateDefaultStatus(Order::STATE_PROCESSING), "senangPay payment success. Transaction Reference Number: $transaction_id", true);
         $order->setIsNotified(true);
         $order->save();
     }

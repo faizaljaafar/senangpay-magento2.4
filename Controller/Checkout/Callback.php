@@ -2,7 +2,7 @@
 
 namespace Senangpay\SenangpayPaymentGateway\Controller\Checkout;
 
-use Senangpay\SenangpayPaymentGateway\Model\BillplzConnect;
+use Senangpay\SenangpayPaymentGateway\Model\SenangpayApi;
 use Magento\Framework\App\CsrfAwareActionInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\Request\InvalidRequestException;
@@ -16,11 +16,11 @@ class Callback extends AbstractAction implements CsrfAwareActionInterface
     public function execute()
     {
         try {
-            $params = SenangpayConnect::getXSignature($this->getGatewayConfig()->getXSignature());
-            $this->getLogger()->debug('Secret key validation passed.');
+            $params = SenangpayApi::getResponse($this->getGatewayConfig()->getSecretKey());
+            $this->getLogger()->debug('Response hash validation passed.');
         } catch (\Exception $e) {
-            $this->getLogger()->debug('Failed secret Validation. Possibly due to invalid secret key');
-            exit;
+            $this->getLogger()->debug('Failed Hash Validation. Possibly due to invalid senangPay merchant information.');
+            exit('Failed Hash Validation');
         }
 
         $order = $this->getOrderSenangpayOrderId('senangpay_order_id', $params['order_id']);
@@ -31,12 +31,14 @@ class Callback extends AbstractAction implements CsrfAwareActionInterface
 
         if ($params['paid']) {
             if ($order->getState() === Order::STATE_PENDING_PAYMENT) {
-                $this->_createInvoice($order, $params['order_id']);
+                $this->_createInvoice($order, $params['transaction_id']);
             }
         }
+        echo 'OK';
+        exit;
     }
 
-    private function _createInvoice(Order $order, $bill_id)
+    private function _createInvoice(Order $order, $transaction_id)
     {
         if (!$order->canInvoice()) {
             throw new \Magento\Framework\Exception\LocalizedException(
@@ -59,7 +61,7 @@ class Callback extends AbstractAction implements CsrfAwareActionInterface
          * Basically, if !config/can_capture and config/is_gateway and CAPTURE_OFFLINE and
          * Payment.IsTransactionPending => pay (Invoice.STATE = STATE_PAID...)
          */
-        $invoice->setTransactionId($bill_id);
+        $invoice->setTransactionId($transaction_id);
         $invoice->setRequestedCaptureCase(Order\Invoice::CAPTURE_OFFLINE);
         $invoice->register();
 
@@ -69,7 +71,7 @@ class Callback extends AbstractAction implements CsrfAwareActionInterface
         $transaction->save();
 
         $order->setState(Order::STATE_PROCESSING);
-        $order->addStatusToHistory($order->getConfig()->getStateDefaultStatus(Order::STATE_PROCESSING), "senangPay payment success. Order ID $bill_id", true);
+        $order->addStatusToHistory($order->getConfig()->getStateDefaultStatus(Order::STATE_PROCESSING), "senangPay payment success. Transaction Reference Number $transaction_id", true);
 
         $order->save();
     }

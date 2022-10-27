@@ -3,7 +3,6 @@
 namespace Senangpay\SenangpayPaymentGateway\Controller\Checkout;
 
 use Senangpay\SenangpayPaymentGateway\Model\SenangpayApi;
-use Senangpay\SenangpayPaymentGateway\Model\SenangpayConnect;
 use Magento\Sales\Model\Order;
 
 /**
@@ -12,7 +11,7 @@ use Magento\Sales\Model\Order;
 class Index extends AbstractAction
 {
 
-    private function createBill($order)
+    private function constructPaymentUrl($order)
     {
         if ($order == null) {
             $this->getLogger()->debug('Unable to get order from last lodged order id. Possibly related to a failed database call');
@@ -31,9 +30,9 @@ class Index extends AbstractAction
             'amount' => $order->getTotalDue(),
             'detail' => "Shopping Cart Order $orderId",
         );
-        $optional = array(
-            'redirect_url' => $this->getUrlHelper()->getRedirectUrl(),
-        );
+        // $optional = array(
+        //     'redirect_url' => $this->getUrlHelper()->getRedirectUrl(),
+        // );
         
         if (empty($parameter['mobile']) && empty($parameter['email'])) {
             $parameter['email'] = '';
@@ -43,36 +42,34 @@ class Index extends AbstractAction
             $parameter['name'] =  '';
         }
 
-        $connect = new BillplzConnect(trim($gatewayConf->getApiKey()));
-        $connect->detectMode();
-
-        $senangpay = new SenangpayApi($connect);
-        $payload = $senangpay->toArray($senangpay->createBill($parameter, $optional));
+        $is_staging = true;
+        $senangpay = new SenangpayApi(
+            trim($gatewayConf->getSecretKey()),
+            trim($gatewayConf->getMerchantId()),
+            $is_staging,
+            $parameter
+        );
+        $paymentUrl = $senangpay->getPaymentUrl();
 
         $order->setState(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT);
         $order->addCommentToStatusHistory("Order ID: $orderId; Status: Pending Payment;", true, true);
         $order->setData('senangpay_order_id', $orderId);
         $order->save();
 
-        return $payload;
+        return $paymentUrl;
     }
 
-    private function redirectToPaymentForm($shouldRedirect, $bill)
+    private function redirectToPaymentForm($paymentUrl)
     {
-        if ($shouldRedirect) {
-            $this->renderRedirect($bill['url']);
-        } else {
-            $this->getLogger()->debug('Bill creation failed: ' . print_r($bill, true));
-            $this->_redirect('checkout/cart');
-        }
+        $this->renderRedirect($paymentUrl);
     }
 
-    private function renderRedirect($bill_url)
+    private function renderRedirect($paymentUrl)
     {
         echo
             "<html>
             <body>
-            <a href=\"$bill_url\">Redirecting to senangPay...</a>
+            <a href=\"$paymentUrl\">Redirecting to senangPay...</a>
             </body>
             <script>
                 window.location.replace(\"$bill_url\");
@@ -90,8 +87,8 @@ class Index extends AbstractAction
         try {
             $order = $this->getOrder();
             if ($order->getState() === Order::STATE_PENDING_PAYMENT) {
-                list($rheader, $bill) = $this->createBill($order);
-                $this->redirectToPaymentForm($rheader === 200, $bill);
+                $paymentUrl = $this->constructPaymentUrl($order);
+                $this->redirectToPaymentForm($paymentUrl);
             } else if ($order->getState() === Order::STATE_CANCELED) {
                 $this->getCheckoutHelper()->restoreQuote(); //restore cart
                 $this->_redirect('checkout/cart');
