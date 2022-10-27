@@ -1,20 +1,20 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Copyright © 2016 Magento. All rights reserved.
+ * Copyright © 2022 Magento. All rights reserved.
  * See COPYING.txt for license details.
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
         <payment>
-            <billplz_gateway>
+            <senangpay_gateway>
                 <debug>0</debug>
                 <active>0</active>
-                <model>BillplzPaymentGatewayFacade</model>
+                <model>SenangpayPaymentGatewayFacade</model>
                 <order_status>pending_payment</order_status>
                 <payment_action>initialize</payment_action>
-                <title>Billplz</title>
+                <title>Senangpay</title>
                 <currency>MYR</currency>
                 <can_initialize>1</can_initialize>
                 <can_authorize>0</can_authorize>
@@ -26,7 +26,7 @@
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
                 <paymentInfoKeys>FRAUD_MSG_LIST</paymentInfoKeys>
                 <privateInfoKeys>FRAUD_MSG_LIST</privateInfoKeys>
-            </billplz_gateway>
+            </senangpay_gateway>
         </payment>
     </default>
 </config>

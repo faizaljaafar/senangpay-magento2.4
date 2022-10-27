@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Copyright © 2016 Magento. All rights reserved.
+ * Copyright © 2022 Magento. All rights reserved.
  * See COPYING.txt for license details.
  */
 -->
@@ -9,11 +9,11 @@
     <type name="Magento\Checkout\Model\CompositeConfigProvider">
         <arguments>
             <argument name="configProviders" xsi:type="array">
-                <item name="billplz_gateway_config_provider" xsi:type="object">Billplz\BillplzPaymentGateway\Model\Ui\ConfigProvider</item>
+                <item name="senangpay_gateway_config_provider" xsi:type="object">Senangpay\SenangpayPaymentGateway\Model\Ui\ConfigProvider</item>
             </argument>
         </arguments>
     </type>
-    <type name="Billplz\BillplzPaymentGateway\Block\Info">
+    <type name="Senangpay\SenangpayPaymentGateway\Block\Info">
         <arguments>
             <argument name="data" xsi:type="array">
                 <item xsi:type="string" name="is_secure_mode">1</item>

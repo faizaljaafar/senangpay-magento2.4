@@ -1,6 +1,6 @@
 <?php
 
-namespace Billplz\BillplzPaymentGateway\Gateway\Config;
+namespace Senangpay\SenangpayPaymentGateway\Gateway\Config;
 
 /**
  * Class Config.
@@ -9,33 +9,19 @@ namespace Billplz\BillplzPaymentGateway\Gateway\Config;
  */
 class Config extends \Magento\Payment\Gateway\Config\Config
 {
-    const CODE = 'billplz_gateway';
+    const CODE = 'senangpay_gateway';
     const KEY_DEBUG = 'debug';
 
-    /**
-     * Get API Key
-     *
-     * @return string
-     */
-    public function getApiKey()
+    public function getSecretKey()
     {
-        return $this->getValue('api_key');
+        return $this->getValue('secret_key');
     }
 
-    public function getCollectionId()
+    public function getMerchantId()
     {
-        return $this->getValue('collection_id');
+        return $this->getValue('merchant_id');
     }
 
-    public function getXSignature()
-    {
-        return $this->getValue('x_signature');
-    }
-
-    /**
-     * Check if customer is to be notified
-     * @return boolean
-     */
     public function isEmailCustomer()
     {
         return (bool) $this->getValue('email_customer');

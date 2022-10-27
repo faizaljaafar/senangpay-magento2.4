@@ -1,5 +1,5 @@
 /**
- * Copyright © 2016 Magento. All rights reserved.
+ * Copyright © 2022 Magento. All rights reserved.
  * See COPYING.txt for license details.
  */
 /*browser:true*/
@@ -16,7 +16,7 @@ define(
             redirectAfterPlaceOrder: false,
 
             defaults: {
-                template: 'Billplz_BillplzPaymentGateway/payment/form',
+                template: 'Senangpay_SenangpayPaymentGateway/payment/form',
                 // transactionResult: ''
             },
 
@@ -30,7 +30,7 @@ define(
             // },
 
             getCode: function() {
-                return 'billplz_gateway';
+                return 'senangpay_gateway';
             },
 
             getData: function() {
@@ -44,11 +44,11 @@ define(
 
             // https://magento.stackexchange.com/questions/139071/get-base-url-or-dynamic-url-in-view-js-or-html-files
             afterPlaceOrder: function () {
-                window.location.replace(url.build('billplz/checkout/index'));
+                window.location.replace(url.build('senangpay/checkout/index'));
             },
 
             // getTransactionResults: function() {
-            //     return _.map(window.checkoutConfig.payment.billplz_gateway.transactionResults, function(value, key) {
+            //     return _.map(window.checkoutConfig.payment.senangpay_gateway.transactionResults, function(value, key) {
             //         return {
             //             'value': key,
             //             'transaction_result': value

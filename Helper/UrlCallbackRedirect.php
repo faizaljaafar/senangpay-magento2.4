@@ -1,6 +1,6 @@
 <?php
 
-namespace Billplz\BillplzPaymentGateway\Helper;
+namespace Senangpay\SenangpayPaymentGateway\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Store\Model\StoreManagerInterface;
@@ -9,7 +9,7 @@ use Magento\Store\Model\StoreManagerInterface;
  * Checkout workflow helper
  *
  * Class Checkout
- * @package Billplz\BillplzPaymentGateway\Helper
+ * @package Senangpay\SenangpayPaymentGateway\Helper
  */
 class UrlCallbackRedirect extends AbstractHelper
 {
@@ -27,12 +27,12 @@ class UrlCallbackRedirect extends AbstractHelper
 
     public function getCallbackUrl()
     {
-        return $this->getStoreManager()->getStore()->getBaseUrl() . 'billplz/checkout/callback';
+        return $this->getStoreManager()->getStore()->getBaseUrl() . 'senangpay/checkout/callback';
     }
 
     public function getRedirectUrl()
     {
-        return $this->getStoreManager()->getStore()->getBaseUrl() . 'billplz/checkout/redirect';
+        return $this->getStoreManager()->getStore()->getBaseUrl() . 'senangpay/checkout/redirect';
     }
 
 }

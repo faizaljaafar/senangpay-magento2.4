@@ -1,9 +1,9 @@
 <?php
 /**
- * Copyright © 2016 Magento. All rights reserved.
+ * Copyright © 2022 Magento. All rights reserved.
  * See COPYING.txt for license details.
  */
-namespace Billplz\BillplzPaymentGateway\Gateway\Http;
+namespace Senangpay\SenangpayPaymentGateway\Gateway\Http;
 
 use Magento\Payment\Gateway\Http\TransferBuilder;
 use Magento\Payment\Gateway\Http\TransferFactoryInterface;

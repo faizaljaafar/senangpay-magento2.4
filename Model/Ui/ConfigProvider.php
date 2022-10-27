@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright © 2016 Magento. All rights reserved.
+ * Copyright © 2022 Magento. All rights reserved.
  * See COPYING.txt for license details.
  */
-namespace Billplz\BillplzPaymentGateway\Model\Ui;
+namespace Senangpay\SenangpayPaymentGateway\Model\Ui;
 
-use Billplz\BillplzPaymentGateway\Gateway\Config\Config;
+use Senangpay\SenangpayPaymentGateway\Gateway\Config\Config;
 use Magento\Backend\Model\Session\Quote;
 use Magento\Checkout\Model\ConfigProviderInterface;
 use Magento\Customer\Model\Session;
@@ -42,31 +42,5 @@ final class ConfigProvider implements ConfigProviderInterface
     public function getConfig()
     {
         return [];
-        // $logoFile = $this->_gatewayConfig->getLogo();
-        // if (strlen($logoFile) > 0) {
-        //     $logo = '../pub/media/sales/store/logo/' . $logoFile;
-        // } else {
-        //     /** @var $om \Magento\Framework\ObjectManagerInterface */
-        //     $om = \Magento\Framework\App\ObjectManager::getInstance();
-        //     /** @var $request \Magento\Framework\App\RequestInterface */
-        //     $request = $om->get('Magento\Framework\App\RequestInterface');
-        //     $params = array();
-        //     $params = array_merge(['_secure' => $request->isSecure()], $params);
-
-        //     $logo = $this->_assetRepo->getUrlWithParams('Oxipay_OxipayPaymentGateway::images/oxipay_logo.png', $params);
-        // }
-
-        // $config = [
-        //     'payment' => [
-        //         Config::CODE => [
-        //             'title' => $this->_gatewayConfig->getTitle(),
-        //             'description' => $this->_gatewayConfig->getDescription(),
-        //             'logo' => $logo,
-        //             'allowed_countries' => $this->_gatewayConfig->getSpecificCountry(),
-        //         ],
-        //     ],
-        // ];
-
-        // return $config;
     }
 }

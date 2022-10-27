@@ -1,5 +1,5 @@
 /**
- * Copyright © 2016 Magento. All rights reserved.
+ * Copyright © 2022 Magento. All rights reserved.
  * See COPYING.txt for license details.
  */
 /*browser:true*/
@@ -16,8 +16,8 @@ define(
         'use strict';
         rendererList.push(
             {
-                type: 'billplz_gateway',
-                component: 'Billplz_BillplzPaymentGateway/js/view/payment/method-renderer/billplz_gateway'
+                type: 'senangpay_gateway',
+                component: 'Senangpay_SenangpayPaymentGateway/js/view/payment/method-renderer/senangpay_gateway'
             }
         );
         /** Add view logic here if needed */

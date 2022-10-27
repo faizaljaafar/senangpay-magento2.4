@@ -1,6 +1,6 @@
 <?php
 
-namespace Billplz\BillplzPaymentGateway\Helper;
+namespace Senangpay\SenangpayPaymentGateway\Helper;
 
 use Magento\Checkout\Model\Session;
 use Magento\Sales\Model\Order;
@@ -9,7 +9,7 @@ use Magento\Sales\Model\Order;
  * Checkout workflow helper
  *
  * Class Checkout
- * @package Billplz\BillplzPaymentGateway\Helper
+ * @package Senangpay\SenangpayPaymentGateway\Helper
  */
 class Checkout
 {

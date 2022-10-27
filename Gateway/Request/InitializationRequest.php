@@ -1,8 +1,8 @@
 <?php
 
-namespace Billplz\BillplzPaymentGateway\Gateway\Request;
+namespace Senangpay\SenangpayPaymentGateway\Gateway\Request;
 
-use Billplz\BillplzPaymentGateway\Gateway\Config\Config;
+use Senangpay\SenangpayPaymentGateway\Gateway\Config\Config;
 use Magento\Checkout\Model\Session;
 use Magento\Payment\Gateway\Data\OrderAdapterInterface;
 use Magento\Payment\Gateway\Request\BuilderInterface;
@@ -48,13 +48,13 @@ class InitializationRequest implements BuilderInterface
         $this->_logger->debug(['[InitializationRequest][validateQuote]$order->getBillingAddress()->getCountryId():' . ($order->getBillingAddress()->getCountryId())]);
         if (!in_array($order->getBillingAddress()->getCountryId(), $allowedCountriesArray)) {
             $this->_logger->debug(['[InitializationRequest][validateQuote]Country is not in array']);
-            $this->_session->setBillplzErrorMessage(__('Orders from this country are not supported by Billplz. Please select a different payment option.'));
+            $this->_session->setSenangpayErrorMessage(__('Orders from this country are not supported by senangPay. Please select a different payment option.'));
             return false;
         }
 
         $this->_logger->debug(['[InitializationRequest][validateQuote]$order->getShippingAddress()->getCountryId():' . ($order->getShippingAddress()->getCountryId())]);
         if (!in_array($order->getShippingAddress()->getCountryId(), $allowedCountriesArray)) {
-            $this->_session->setBillplzErrorMessage(__('Orders shipped to this country are not supported by Billplz. Please select a different payment option.'));
+            $this->_session->setSenangpayErrorMessage(__('Orders shipped to this country are not supported by senangPay. Please select a different payment option.'));
             return false;
         }
 
