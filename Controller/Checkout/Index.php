@@ -72,7 +72,7 @@ class Index extends AbstractAction
             <a href=\"$paymentUrl\">Redirecting to senangPay...</a>
             </body>
             <script>
-                window.location.replace(\"$bill_url\");
+                window.location.replace(\"$paymentUrl\");
             </script>
             </html>";
     }
