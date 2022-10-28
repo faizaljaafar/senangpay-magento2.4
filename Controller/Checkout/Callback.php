@@ -23,7 +23,7 @@ class Callback extends AbstractAction implements CsrfAwareActionInterface
             exit('Failed Hash Validation');
         }
 
-        $order = $this->getOrderSenangpayOrderId('senangpay_order_id', $params['order_id']);
+        $order = $this->getOrderBySenangpayOrderId($params['order_id']);
 
         if (!$order) {
             $this->getLogger()->debug("senangPay order id could not be retrieved: {$params['order_id']}");

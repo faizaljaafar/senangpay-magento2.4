@@ -2,9 +2,9 @@
 
 <schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
     <table name="sales_order" resource="sales" comment="Sales Flat Order">
-        <column xsi:type="varchar" name="senangpay_order_id" length="32" nullable="true" comment="senangPay Order ID"/>
+        <column xsi:type="varchar" name="senangpay_transaction_id" length="100" nullable="true" comment="senangPay Transaction ID"/>
         <index referenceId="senangpay_unique_index" indexType="btree">
-            <column name="senangpay_order_id"/>
+            <column name="senangpay_transaction_id"/>
         </index>
     </table>
 </schema>

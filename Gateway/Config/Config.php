@@ -22,6 +22,11 @@ class Config extends \Magento\Payment\Gateway\Config\Config
         return $this->getValue('merchant_id');
     }
 
+    public function getIsSandbox()
+    {
+        return $this->getValue('is_sandbox');
+    }
+
     public function isEmailCustomer()
     {
         return (bool) $this->getValue('email_customer');

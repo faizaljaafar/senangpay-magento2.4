@@ -42,7 +42,7 @@ class Index extends AbstractAction
             $parameter['name'] =  '';
         }
 
-        $is_staging = true;
+        $is_staging = $gatewayConf->getIsSandbox() == 1 ? true : false;
         $senangpay = new SenangpayApi(
             trim($gatewayConf->getSecretKey()),
             trim($gatewayConf->getMerchantId()),

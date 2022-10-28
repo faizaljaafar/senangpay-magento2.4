@@ -1,17 +1,15 @@
-# Billplz for Magento 2.4
+# senangPay for Magento 2.4
 
-Accept payment using Billplz for Magento 2.4.x
+Accept payment using senangPay for Magento 2.4.x
 
 **Version: 1.0.0**
 
-The extension is using [Billplz](https://www.billplz.com/) API v3.
-
 #### Installation
 
-1. Copy all files to `app/code/Billplz/BillplzPaymentGateway` folder directory.
+1. Copy all files to `app/code/Senangpay/SenangpayPaymentGateway` folder directory.
 1. Enable plugin.
     ```bash
-    php bin/magento module:enable Billplz_BillplzPaymentGateway --clear-static-content
+    php bin/magento module:enable Senangpay_SenangpayPaymentGateway --clear-static-content
     ```
 1. Run database upgrade.
     ```bash
@@ -25,7 +23,7 @@ The extension is using [Billplz](https://www.billplz.com/) API v3.
     ```bash
     php bin/magento cache:flush
     ```
-1. Configure it in `Stores > Configuration > Sales > Payment Methods > Billplz`.
+1. Configure it in `Stores > Configuration > Sales > Payment Methods > senangPay`.
 1. Get Billplz API secret key, Collection ID, XSignature Key and update in the config.
 
 #### Test Mode
